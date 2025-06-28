@@ -1,0 +1,1 @@
+Instead of waiting to scroll why don't I just fetch new requests every hour and once I hit a thousand I just stop and be like "Oops you've hit the edge of reddit"
