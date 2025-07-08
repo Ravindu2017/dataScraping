@@ -1,5 +1,8 @@
 const fs = require("fs");
 let afterToken = null;
+const jsonData = JSON.parse(fs.readFileSync("./reddit-data-two.json", "utf-8"));
+afterToken = jsonData[0];
+/*
 /**
  * Fetches posts from a Reddit subreddit
  * @param {string} subreddit - Subreddit name (without 'r/')
@@ -9,7 +12,7 @@ let afterToken = null;
  */
 async function fetchRedditPosts(subreddit, sortType, limit) {
   try {
-    const url = `https://www.reddit.com/r/${subreddit}/${sortType}.json?limit=${limit}`;
+    const url = `https://www.reddit.com/r/${subreddit}/${sortType}.json?limit=${limit}&after=${afterToken}`;
 
     const response = await fetch(url, {
       headers: {
@@ -43,25 +46,25 @@ async function fetchRedditPosts(subreddit, sortType, limit) {
 
 // // Fetch Posts in 1 go
 fetchRedditPosts("watches", "top", 30).then((posts) => {
-  console.log("Top Askreddit posts:", posts.length, posts[0].pic);
-
-  const stream = fs.createWriteStream("reddit-data-two.json");
-  stream.write(`[${afterToken},\n`);
-  posts.forEach((post, i) => {
-    stream.write(JSON.stringify(post) + (i < posts.length - 1 ? ",\n" : "\n"));
-  });
-  stream.write("]");
-  stream.end();
+  //   const stream = fs.createWriteStream("reddit-data-three.json");
+  //   stream.write(`[${afterToken},\n`);
+  //   posts.forEach((post, i) => {
+  //     stream.write(JSON.stringify(post) + (i < posts.length - 1 ? ",\n" : "\n"));
+  //   });
+  //   stream.write("]");
+  //   stream.end();
 
   // Display in your webpage:
-  // posts.forEach((post) => {
-  //     console.log(
-  //       post,
-  //       post.pic,
-  //       post.title,
-  //       post.author,
-  //       post.score,
-  //       post.preview
-  //     );
-  //   });
+  posts.forEach((post) => {
+    console.log(
+      post,
+      post.pic,
+      post.title,
+      post.author,
+      post.score,
+      post.preview
+    );
+  });
+
+  console.log("Top Watches posts:", posts.length, posts[0].pic);
 });
