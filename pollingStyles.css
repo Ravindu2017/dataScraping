@@ -1,0 +1,68 @@
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+#first {
+  border: solid red;
+  /* border-style: solid; */
+  grid-area: left;
+}
+
+#third {
+  border: solid blue;
+  grid-area: right;
+}
+#main-feed {
+  border: solid black;
+  grid-area: content;
+}
+
+#main-feed img {
+  max-width: 100%;
+  height: auto;
+}
+
+.web-grid {
+  display: grid;
+  grid-auto-columns: 1fr;
+  /* gap: 1.5rem; */
+  grid-template-areas:
+    "left    content content content     right"
+    "left    content content content     right"
+    "left    content content content     right";
+  /* background-color: rgb(34, 35, 35); */
+  min-height: 100vh;
+}
+
+.posts-grid {
+  border: solid yellow;
+}
+
+.post {
+  border: solid peru;
+}

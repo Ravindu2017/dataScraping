@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="pollingStyles.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <main class="web-grid">
+      <div id="first">first</div>
+      <div id="main-feed">
+        Main feed
+        <div class="posts-grid">
+          <article class="post">
+            <img id="test-image" class="post-image" alt="Post content" />
+            <div class="post-actions">
+              <button>Like</button>
+              <button>Comment</button>
+            </div>
+            <p class="post-caption">This is a social media post caption!</p>
+          </article>
+
+          <!-- Repeat for more posts -->
+        </div>
+      </div>
+      <div id="third">third</div>
+    </main>
+    <script>
+      let jsonData;
+
+      async function loadJSONData() {
+        try {
+          const response = await fetch("./reddit-data-two.json");
+          jsonData = await response.json();
+          //   console.log(jsonData);
+          printData(jsonData);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      function printData(data) {
+        const testImage = new Image();
+        testImage.src = data[2].url;
+        console.log(data[2].url, testImage.height, testImage.width);
+        const ratio = testImage.width / testImage.height;
+        document.getElementById("test-image").src = data[2].url;
+      }
+
+      function resize(url) {
+        let MAX_WIDTH = 300;
+        let MAX_HEIGHT = 300;
+
+        const img = new Image();
+        img.src = url;
+
+        let width = img.width;
+        let height = img.height;
+        const ratio = width / height;
+
+        // Change the resizing logic
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height = height * (MAX_WIDTH / width);
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width = width * (MAX_HEIGHT / height);
+            height = MAX_HEIGHT;
+          }
+        }
+
+        var canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        return canvas;
+      }
+
+      loadJSONData();
+      //  fetch("./dataScraping/reddit-data-two.json") // File must be in the same folder as your HTML
+      //     .then((response) => response.json())
+      //     .then((data) => {
+      //       jsonData = data;
+      //       //   console.log("Loaded JSON:", data); // Use your data here
+      //     })
+      //     .catch((error) => {
+      //       console.error("Error loading JSON:", error);
+      //     });
+
+      let afterToken = null;
+      let postAge = null;
+      let allPosts = [];
+    </script>
+  </body>
+</html>
+
+<!--
+
+<div class="posts-grid">
+      <article class="post">
+         <header class="post-header">
+          <img class="user-avatar" src=".jpg" alt="User" />
+          <h3>Username</h3>
+        </header> 
+        <img class="post-image" src="post.data.url_overridden_by_dest.jpg" alt="Post content" />
+        <div class="post-actions">
+          <button>Like</button>
+          <button>Comment</button>
+        </div>
+        <p class="post-caption">This is a social media post caption!</p>
+      </article>
+
+    </div>
+
+    async function fetchRedditPosts(subreddit, sortType, limit, nextToken) {
+        try {
+          const url = `https://www.reddit.com/r/${subreddit}/${sortType}.json?limit=${limit}&after=${nextToken}`;
+
+          const response = await fetch(url, {
+            headers: {
+              "User-Agent": "RedditScraper/0.0.1", // Required by Reddit API
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          afterToken = data.data.after;
+          postAge = Date.now();
+          allPosts = [...allPosts, ...data.data.children];
+          return [allPosts, afterToken];
+          // console.log(data.data.children);
+          // return (
+          //   afterToken,
+          //   data.data.children.map((post) => ({
+          //     id: post.data.id,
+          //     title: post.data.title,
+          //     author: post.data.author,
+          //     score: post.data.score,
+          //     url: post.data.url,
+          //     created_utc: post.data.created_utc,
+          //     num_comments: post.data.num_comments,
+          //     pic: post.data.url_overridden_by_dest,
+          //     preview: post.data.thumbnail,
+          //   }))
+          // );
+        } catch (error) {
+          console.error("Error fetching Reddit data:", error);
+          return [];
+        }
+      }
+
+      // // Fetch Posts in 1 go
+      fetchRedditPosts("watches", "top", 30, afterToken).then((res) => {
+        // Display in your webpage:
+        console.log(res[0][1], res[1]);
+        //   let posts = res[0];
+        //   posts.forEach((post) => {
+        //     console.log(
+        //       post,
+        //       post.pic,
+        //       post.title,
+        //       post.author,
+        //       post.score,
+        //       post.preview
+        //     );
+        //   });
+
+        console.log("Top Watches posts:", res[0].length);
+      });
+
+      fetchFivePages("watches", "top", 30, afterToken).then((res) => {
+        console.log();
+      });
+-->
