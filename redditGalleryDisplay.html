@@ -74,20 +74,9 @@
       }
 
       function printData(data) {
-        // const testPost = resize(data[2].url); // need to resize every post
-        // console.log(data[2].url);
-        // attachPosts(testPost);
-        for (post in data) {
-          if (post > 0) {
-            console.log(post, data[post].url);
-            const testPost = resize(data[post].url);
-            attachPosts(testPost);
-          }
-        }
-        // const testImage = new Image();
-        // testImage.src = data[2].url;
-        // const ratio = testImage.width / testImage.height;
-        // document.getElementById("test-div").appendChild(testPost);
+        const testPost = resize(data[1].url); // need to resize every post
+        console.log(data[1].url);
+        attachPosts(testPost);
       }
 
       function attachPosts(canvas) {
